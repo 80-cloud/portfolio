@@ -1,0 +1,203 @@
+[
+  {
+    "id": "review-board",
+    "name": "review-board",
+    "title": "相互レビューコミュニティ",
+    "tagline": "学習者どうしが成果物を多軸で評価し、コメントと合格バッジで成長を支え合う Web アプリ。",
+    "role": "個人開発（要件・設計・実装・AWS 運用まで）",
+    "period": "2026-05〜",
+    "status": "deployed",
+    "featured": true,
+    "order": 1,
+    "domain": ["Web アプリ", "認可 / RBAC", "AWS 運用 / IaC"],
+    "tech": ["Java", "Spring Boot", "React", "PostgreSQL", "Terraform", "AWS(EC2/S3/RDS)", "GitHub Actions"],
+    "problem": "学習者どうしの相互レビューを、コミュニティ内の「誰がどこまで見られるか」という認可を厳密に保ったまま、成長の記録として可視化する。",
+    "strengths": [
+      {
+        "title": "一貫した認可設計（見えない＝404 / できない＝403）",
+        "detail": "権限外のリソースは存在ごと隠して 404、権限はあるが操作できないものは 403 と、全 API で扱いを統一。他人のデータを ID 直指定で触る種類の攻撃（IDOR）を設計段階で塞いだ。"
+      },
+      {
+        "title": "多層の認証・セッション保護",
+        "detail": "JWT をアクセス用とリフレッシュ用の 2 段構成にし、Cookie は Secure / HttpOnly / SameSite=Strict。ワンタイムパスワード（TOTP）による多要素認証にも対応。"
+      },
+      {
+        "title": "監査ログの改ざん検知",
+        "detail": "操作履歴をハッシュでつないで記録し、後から書き換えられていないかを検証できるようにした。"
+      },
+      {
+        "title": "アップロード画像の安全対策",
+        "detail": "拡張子ではなくファイルの実体（マジックバイト）で画像かどうかを判定し、保存先でも隔離。不正なファイルの混入を防ぐ。"
+      },
+      {
+        "title": "IaC と自動デプロイ（本番稼働まで到達）",
+        "detail": "Terraform で構成をコード化し、AWS（EC2 / S3 / RDS）へデプロイ。GitHub Actions でビルド → 配信 → デプロイまで自動化した。誤操作で本番を壊さないための歯止めも複数用意している。"
+      },
+      {
+        "title": "品質の作り込み",
+        "detail": "統合テストと k6 による負荷テストを CI で継続実行し、アクセシビリティも全ページで高スコアを確認。"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/80-cloud/review-board",
+      "docs": "https://github.com/80-cloud/review-board-docs",
+      "live": null
+    },
+    "liveNote": "本番デプロイ稼働まで到達済み。触れるデモ環境は準備中（選考時に画面共有も可能）。",
+    "screenshots": [],
+    "learned": [
+      "「見えない」と「できない」を分けて考えると、認可の抜けを設計段階で見つけやすい。",
+      "本番まで通すと、テスト・監視・デプロイの自動化がそのまま品質になると実感した。"
+    ]
+  },
+  {
+    "id": "aws-zukan",
+    "name": "aws-zukan",
+    "title": "AWS サービスの「引ける図鑑」",
+    "tagline": "AWS の各サービスを部品表＋設計判断集として引けるようにした、データ駆動の図鑑アプリ。",
+    "role": "個人開発（設計・実装・公開）",
+    "period": "2026-06〜",
+    "status": "live",
+    "featured": true,
+    "order": 2,
+    "domain": ["Web アプリ", "フロントエンド", "データ駆動"],
+    "tech": ["React", "Vite", "TypeScript", "Tailwind CSS", "GitHub Actions", "GitHub Pages"],
+    "problem": "AWS サービスの「どんな時に使い、どんな時に向かないか」を、そのつど調べ直さずに引けるようにする。",
+    "strengths": [
+      {
+        "title": "データを足すだけで増える設計",
+        "detail": "サービス情報を JSON に集約し、読み取りは 1 箇所に隔離。UI とデータを分けたことで、内容の追加が画面の改修なしにできる。"
+      },
+      {
+        "title": "件数や鮮度をデータから自動算出",
+        "detail": "掲載件数や更新日を本文に直書きせず、データから計算して表示。情報が古くならない作りにしている。"
+      },
+      {
+        "title": "自動チェックと自動公開",
+        "detail": "ID の重複・参照切れ・必須項目などを CI で検査し、main への反映で GitHub Pages へ自動公開する。"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/80-cloud/aws-zukan",
+      "docs": null,
+      "live": "https://80-cloud.github.io/aws-zukan/"
+    },
+    "liveNote": "ログイン不要で公開中。",
+    "screenshots": [],
+    "learned": [
+      "データと表示を分けておくと、あとから中身を育てやすい。"
+    ]
+  },
+  {
+    "id": "study-boards",
+    "name": "study-boards",
+    "title": "個人開発のまとめ",
+    "tagline": "複数の学習プロジェクトをまとめ、一部を公開しているモノレポ。",
+    "role": "個人開発",
+    "period": "2026〜",
+    "status": "live",
+    "featured": false,
+    "order": 3,
+    "domain": ["Web アプリ", "モノレポ"],
+    "tech": ["React", "TypeScript", "GitHub Pages"],
+    "problem": "複数の制作物をまとめて管理し、公開できるものは 1 か所から見られるようにする。",
+    "strengths": [
+      {
+        "title": "複数アプリをまとめて公開",
+        "detail": "個別のアプリを 1 つのリポジトリにまとめ、公開できるものを GitHub Pages から見られるようにしている。"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/80-cloud/study-boards",
+      "docs": null,
+      "live": "https://80-cloud.github.io/study-boards/"
+    },
+    "liveNote": "一部を公開中。",
+    "screenshots": [],
+    "learned": []
+  },
+  {
+    "id": "cloudops-change-guard",
+    "name": "cloudops-change-guard",
+    "title": "IaC 変更の統制アプリ",
+    "tagline": "CloudFormation / Terraform による AWS 環境への変更を、安全に統制するための変更管理アプリ。",
+    "role": "個人開発（設計・実装）",
+    "period": "2026-07〜",
+    "status": "repo",
+    "featured": false,
+    "order": 4,
+    "domain": ["Web アプリ", "AWS 運用 / IaC", "変更管理"],
+    "tech": ["Java", "Spring Boot"],
+    "problem": "AWS への構成変更で、意図しない削除などの事故が起きないように、変更をレビュー・統制できる仕組みを作る。",
+    "strengths": [
+      {
+        "title": "破壊的変更の事前チェックという着眼",
+        "detail": "IaC の変更内容を確認し、危険な変更を前もって見つけて止めることを狙った変更管理アプリ。"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/80-cloud/cloudops-change-guard",
+      "docs": null,
+      "live": null
+    },
+    "liveNote": "現在デプロイ準備中。",
+    "screenshots": [],
+    "learned": []
+  },
+  {
+    "id": "recipe-board",
+    "name": "recipe-board",
+    "title": "レシピ管理アプリ",
+    "tagline": "レシピの登録・閲覧・検索ができる Web アプリ。",
+    "role": "個人開発",
+    "period": "2026〜",
+    "status": "repo",
+    "featured": false,
+    "order": 5,
+    "domain": ["Web アプリ"],
+    "tech": ["Ruby on Rails", "Nuxt 3", "MySQL"],
+    "problem": "レシピを登録して、あとから検索して見返せるようにする。",
+    "strengths": [
+      {
+        "title": "別スタックでの CRUD 実装経験",
+        "detail": "中心スタックとは別に、Rails + Nuxt でも一通りの登録・閲覧・検索を実装した。"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/80-cloud/recipe-board",
+      "docs": null,
+      "live": null
+    },
+    "liveNote": null,
+    "screenshots": [],
+    "learned": []
+  },
+  {
+    "id": "trip-diary",
+    "name": "trip-diary",
+    "title": "旅行記録アプリ",
+    "tagline": "旅行の記録を残せる、マルチユーザー対応の Web アプリ。",
+    "role": "個人開発",
+    "period": "2026〜",
+    "status": "repo",
+    "featured": false,
+    "order": 6,
+    "domain": ["Web アプリ"],
+    "tech": ["Ruby on Rails", "Nuxt", "MySQL"],
+    "problem": "旅行の記録を、ユーザーごとに残せるようにする。",
+    "strengths": [
+      {
+        "title": "マルチユーザー対応",
+        "detail": "ユーザーごとにデータを分けて記録できるようにした。"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/80-cloud/trip-diary",
+      "docs": null,
+      "live": null
+    },
+    "liveNote": null,
+    "screenshots": [],
+    "learned": []
+  }
+]
