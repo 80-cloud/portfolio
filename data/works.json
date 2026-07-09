@@ -41,9 +41,9 @@
     "links": {
       "repo": "https://github.com/80-cloud/review-board",
       "docs": "https://github.com/80-cloud/review-board-docs",
-      "live": null
+      "live": "https://review-board-jp.duckdns.org"
     },
-    "liveNote": "本番デプロイ稼働まで到達済み。触れるデモ環境は準備中（選考時に画面共有も可能）。",
+    "liveNote": "正規TLS（Let's Encrypt）で本番稼働中。ログイン画面の「🐬 デモアカウントで試す（登録不要）」から、登録なしで全機能を操作できます。",
     "screenshots": [],
     "learned": [
       "「見えない」と「できない」を分けて考えると、認可の抜けを設計段階で見つけやすい。",
