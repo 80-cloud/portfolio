@@ -59,7 +59,7 @@
     "period": "2026-06〜",
     "status": "live",
     "featured": true,
-    "order": 2,
+    "order": 3,
     "domain": ["Web アプリ", "フロントエンド", "データ駆動"],
     "tech": ["React", "Vite", "TypeScript", "Tailwind CSS", "GitHub Actions", "GitHub Pages"],
     "problem": "AWS サービスの「どんな時に使い、どんな時に向かないか」を、そのつど調べ直さずに引けるようにする。",
@@ -97,7 +97,7 @@
     "period": "2026〜",
     "status": "live",
     "featured": false,
-    "order": 3,
+    "order": 4,
     "domain": ["Web アプリ", "モノレポ"],
     "tech": ["React", "TypeScript", "GitHub Pages"],
     "problem": "複数の制作物をまとめて管理し、公開できるものは 1 か所から見られるようにする。",
@@ -119,30 +119,49 @@
   {
     "id": "cloudops-change-guard",
     "name": "cloudops-change-guard",
-    "title": "IaC 変更の統制アプリ",
-    "tagline": "CloudFormation / Terraform による AWS 環境への変更を、安全に統制するための変更管理アプリ。",
-    "role": "個人開発（設計・実装）",
-    "period": "2026-07〜",
-    "status": "repo",
-    "featured": false,
-    "order": 4,
+    "title": "IaC 変更ガバナンスアプリ",
+    "tagline": "AWS への IaC 変更（CloudFormation / Terraform）を、リスク判定・承認フロー・完了ゲートで安全に統制する変更管理アプリ。",
+    "role": "個人開発（要件・設計・実装・AWS 運用まで）",
+    "period": "2026-06〜",
+    "status": "deployed",
+    "featured": true,
+    "order": 2,
     "domain": ["Web アプリ", "AWS 運用 / IaC", "変更管理"],
-    "tech": ["Java", "Spring Boot"],
-    "problem": "AWS への構成変更で、意図しない削除などの事故が起きないように、変更をレビュー・統制できる仕組みを作る。",
+    "tech": ["Java", "Spring Boot", "React", "TypeScript", "PostgreSQL", "Terraform", "AWS(EC2/RDS/S3)", "GitHub Actions"],
+    "problem": "AWS への構成変更は「apply が成功すれば終わり」ではない。変更前の危険検知・リスクに応じた承認・変更後の正常性確認・失敗時の復旧余地までを、一貫して扱えるようにする。",
     "strengths": [
       {
-        "title": "破壊的変更の事前チェックという着眼",
-        "detail": "IaC の変更内容を確認し、危険な変更を前もって見つけて止めることを狙った変更管理アプリ。"
+        "title": "「適用できたか」と「正常か」を分ける完了ゲート",
+        "detail": "変更が適用できたかと、サービスが正常かを別々に記録し、両方そろうまで完了にしない。適用の成功だけで安心しないための歯止め。"
+      },
+      {
+        "title": "データ駆動のリスク判定",
+        "detail": "変更内容をリソース型×アクションに正規化し、ルール（JSON）で危険度を判定。文字列検索ではなく、ルールを足すだけで判定を増やせる。"
+      },
+      {
+        "title": "リスクに応じて承認段数が変わるポリシー",
+        "detail": "重大な変更ほど多くの承認を必須にし、条件を満たさない状態遷移は受け付けない。危険な変更をすり抜けさせない作り。"
+      },
+      {
+        "title": "常時稼働と誤操作の歯止め",
+        "detail": "AWS 上で常時稼働（EC2＋RDS＋正規TLS）。IMDSv2 必須・KMS 暗号化・削除保護・コスト監視・認証情報を持たない静的 CI など、誤操作で壊さないための歯止めを複数用意した。"
+      },
+      {
+        "title": "実 AWS への read-only 連携と自動デプロイ",
+        "detail": "実 AWS の状態を read-only で参照して変更後の正常性を判定。GitHub Actions でビルド→配信→デプロイを自動化し、昇格は人の承認ゲートを挟む。"
       }
     ],
     "links": {
       "repo": "https://github.com/80-cloud/cloudops-change-guard",
       "docs": null,
-      "live": null
+      "live": "https://cloudops-guard.duckdns.org/"
     },
-    "liveNote": "現在デプロイ準備中。",
+    "liveNote": "AWS 上で本番稼働中。ログイン画面のデモ管理者ボタンから、登録なしでリスク判定〜承認〜完了ゲートまで操作できます。",
     "screenshots": [],
-    "learned": []
+    "learned": [
+      "「適用できたか」と「正常か」を分けて記録すると、変更の安全性を設計に落とし込みやすい。",
+      "無料枠プランの制約（バックアップ保持・EBS 最小サイズ）は、デプロイ前に確認しておくと手戻りが減る。"
+    ]
   },
   {
     "id": "recipe-board",
