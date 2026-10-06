@@ -18,6 +18,7 @@
 |---|---|---|
 | **review-board** | 相互レビューコミュニティ。認可・安全性の設計を重点に、本番稼働まで到達（正規TLS・CI/CD・IaC） | [▶ ライブデモ（登録不要）](https://review-board-jp.duckdns.org) ・ [設計の詳細](docs/case-review-board.md) |
 | **aws-zukan** | AWS サービスを部品表＋設計判断集として引ける図鑑 | [▶ 公開ページ](https://80-cloud.github.io/aws-zukan/) |
+| **trip-diary** | 旅行記録アプリ（Rails + Nuxt）。権限で見せないものを守る設計と、テスト・CI・E2E、月額 0 円の公開構成 | [▶ ライブデモ（ゲストで試せる）](https://trip-diary-wpaf.onrender.com) ・ [設計書](https://github.com/80-cloud/trip-diary/tree/main/docs) |
 
 各作品の課題・強み・技術は、上のライブ／詳細から辿れます（作品カタログ `data/works.json` はローカル起動でも閲覧可）。
 

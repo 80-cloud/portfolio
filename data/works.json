@@ -10,7 +10,7 @@
     "featured": true,
     "order": 1,
     "domain": ["Web アプリ", "認可 / RBAC", "AWS 運用 / IaC"],
-    "tech": ["Java", "Spring Boot", "React", "PostgreSQL", "Terraform", "AWS(EC2/S3/RDS)", "GitHub Actions"],
+    "tech": ["Java", "Spring Boot", "React", "PostgreSQL", "Terraform", "AWS(EC2/RDS/S3)", "GitHub Actions"],
     "problem": "学習者どうしの相互レビューを、コミュニティ内の「誰がどこまで見られるか」という認可を厳密に保ったまま、成長の記録として可視化する。",
     "strengths": [
       {
@@ -97,7 +97,7 @@
     "period": "2026〜",
     "status": "live",
     "featured": false,
-    "order": 4,
+    "order": 5,
     "domain": ["Web アプリ", "モノレポ"],
     "tech": ["React", "TypeScript", "GitHub Pages"],
     "problem": "複数の制作物をまとめて管理し、公開できるものは 1 か所から見られるようにする。",
@@ -176,9 +176,9 @@
     "period": "2026〜",
     "status": "repo",
     "featured": false,
-    "order": 5,
+    "order": 6,
     "domain": ["Web アプリ"],
-    "tech": ["Ruby on Rails", "Nuxt 3", "MySQL"],
+    "tech": ["Ruby on Rails", "Nuxt", "MySQL"],
     "problem": "レシピを登録して、あとから検索して見返せるようにする。",
     "strengths": [
       {
@@ -199,28 +199,52 @@
     "id": "trip-diary",
     "name": "trip-diary",
     "title": "旅行記録アプリ",
-    "tagline": "旅行の記録を残せる、マルチユーザー対応の Web アプリ。",
-    "role": "個人開発",
-    "period": "2026〜",
-    "status": "repo",
-    "featured": false,
-    "order": 6,
-    "domain": ["Web アプリ"],
-    "tech": ["Ruby on Rails", "Nuxt", "MySQL"],
-    "problem": "旅行の記録を、ユーザーごとに残せるようにする。",
+    "tagline": "登録なしで試せる旅行記録アプリ。旅の日記・写真・チケットを残し、コメントといいねで共有できる。",
+    "role": "個人開発（要件・設計・実装・公開と運用まで）",
+    "period": "2026-05〜",
+    "status": "deployed",
+    "featured": true,
+    "order": 4,
+    "domain": ["Web アプリ", "認可 / 権限", "無料枠での公開・運用"],
+    "tech": ["Ruby on Rails", "Nuxt", "MySQL", "Render", "Playwright", "Tailwind CSS", "GitHub Actions", "TiDB Cloud"],
+    "problem": "旅行の記録を時系列で残し、ほかの人の記録にコメントやいいねで反応できるようにする。見せてはいけないもの（下書き・非公開・件数）は権限で隠す。",
     "strengths": [
       {
-        "title": "マルチユーザー対応",
-        "detail": "ユーザーごとにデータを分けて記録できるようにした。"
+        "title": "登録なしで試せるゲスト",
+        "detail": "訪問者ごとに一時ユーザーを作る。同時に有効なゲストは 200 人まで、同じ IP から 10 分に 5 回まで。期限（24 時間）を過ぎたゲストは関連データごと消す。"
+      },
+      {
+        "title": "見えないものは 404、件数も権限で守る",
+        "detail": "他人の下書きや非公開の旅行は、コメント・いいねなどの子リソースも含めて 404 で隠す。本人だけが見られる一覧は、件数などの集計値も同じ条件で隠す。"
+      },
+      {
+        "title": "認証とログアウト",
+        "detail": "JWT を HttpOnly の Cookie に入れ、ログアウトしたトークンは失効リストに入れて、有効期限内でも使えないようにした。"
+      },
+      {
+        "title": "テストと CI",
+        "detail": "Minitest 363 件（Line 約 95%）・Vitest 75 件・Playwright の E2E（Chromium・WebKit・iPhone 14）・k6 の性能テスト。CI で rubocop・ESLint・brakeman・bundle-audit・npm audit も動かす。セキュリティの自己監査を docs にまとめた。"
+      },
+      {
+        "title": "アクセシビリティ",
+        "detail": "公開環境の 6 画面で、Lighthouse の Accessibility が 100（スマホと PC、ライトとダーク。2026-10-06 時点）。色の組み合わせと入力欄の名前は、テストで守る。"
+      },
+      {
+        "title": "月額 0 円の公開構成と見回り",
+        "detail": "Render・TiDB Cloud Starter・Cloudinary の無料枠で公開し、支払い方法を登録しない。GitHub Actions で死活監視をし、帯域や使用量を測って設定を決めた。"
       }
     ],
     "links": {
       "repo": "https://github.com/80-cloud/trip-diary",
-      "docs": null,
-      "live": null
+      "docs": "https://github.com/80-cloud/trip-diary/tree/main/docs",
+      "live": "https://trip-diary-wpaf.onrender.com"
     },
-    "liveNote": null,
+    "liveNote": "無料のサーバーで公開しているため、しばらくアクセスが無いと止まり、最初の表示に 1 分ほどかかることがあります。トップの「ゲストとして試す (登録不要)」から、登録なしで操作できます（ゲストのデータは 24 時間後に消えます）。",
     "screenshots": [],
-    "learned": []
+    "learned": [
+      "権限のガードは、一覧の中身だけでなく、件数などの集計値にも同じ条件でかける。隠した配列の件数から情報が漏れる。",
+      "無料の公開構成は、帯域などの上限を実際に測ってから設定を決める。公開直後に帯域が 1 日約 170 MB の勢いで増えていたため、ジョブの見回りの間隔を広げ、約 22 MB/日（約 87% 減）にした。",
+      "Lighthouse をログイン前の画面だけで流すと、本人にだけ出る画面の問題を見落とす。自分の旅行の詳細も測り、入力欄の label と、赤系の色のコントラストを直した。"
+    ]
   }
 ]
